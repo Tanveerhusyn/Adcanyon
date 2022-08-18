@@ -58,7 +58,7 @@ const Login = () => {
       document.getElementById("singInWithGoogle"),
       { theme: "outline", siez: "large" }
     );
-    google.accounts.id.prompt();
+    google.accounts?.id.prompt();
   }, []);
 
   const handleSubmit = async (e) => {
