@@ -52,6 +52,8 @@ const Profile = () => {
   const [CountrydropdownOpen2, setCountryDropdownOpen2] = React.useState(false);
   const [RegiondropdownOpen, setRegionDropdownOpen] = React.useState(false);
   const [RegiondropdownOpen2, setRegionDropdownOpen2] = React.useState(false);
+
+  
   const [show, setShow] = React.useState(false);
   const [select, setSelect] = React.useState("select");
   const [selectCountry2, setSelectCountry2] = React.useState("select");
@@ -103,6 +105,7 @@ const Profile = () => {
 
   console.log(getAuthCode(redirectedURL));
 
+ 
 
   React.useEffect(()=>{
     const resultUrl = getAuthCode(redirectedURL);
@@ -115,7 +118,14 @@ const Profile = () => {
     
       setAdvertAuthCode(resultUrl[1])
     }
+ 
+  if(localStorage.getItem("formData")){
+   const formD =  JSON.parse( localStorage.getItem("formData"))
 
+   setSelect(formD.country)
+   setSelectRegion(formD.region)
+   
+  }
 
    
   },[])
@@ -147,10 +157,10 @@ if(sellerAuthCode || advertAuthCode ){
   axios.post("https://api.amazon.com/auth/o2/token",data)
   .then((res)=>{
     if(sellerAuthCode && !advertAuthCode){
-        setSellerRefToken(res.refreshToken)
+        setSellerRefToken(res.refresh_token)
     }
     else if(advertAuthCode && !sellerAuthCode){
-      setAdvertRefToken(res.refreshToken)
+      setAdvertRefToken(res.refresh_token)
 
     }
   
@@ -159,7 +169,7 @@ if(sellerAuthCode || advertAuthCode ){
 }
 
 if(sellerRefToken){
-  const user = localStorage.getItem("formData")
+  const user = JSON.parse(localStorage.getItem("formData"))
   const reqData = {
     userName:user?.userName||"",
     email:user?.email||"",
@@ -196,11 +206,11 @@ if(sellerRefToken){
   
  
   return (
-    <div style={{ marginLeft: `${expand ? "250px" : "0px"}`}}>
+    <div  >
       <UserHeader />
       {/* Page content */}
       <Container className="mt-7 "  fluid>
-        <Row>
+        <Row style={{marginLeft:"260px"}}>
           <Col className="order-xl-1" xl="5" md="8">
             <Card className="bg-secondary shadow" style={{width:"100%"}}>
               <CardHeader className="bg-white border-0">
@@ -276,10 +286,15 @@ if(sellerRefToken){
                         <Button
                           color="danger"
                           onClick={(e) => {e.preventDefault()
-                              formData["country"] = select;
-                              formData["region"] = selectRegion;
-                              localStorage.setItem('formData',formData)
-                              
+                            
+                            formData["country"] = select;
+                            formData["region"] = selectRegion;
+                            localStorage.setItem('formData',JSON.stringify(formData))
+
+                            if(!localStorage.getItem("formData")){
+                              localStorage.setItem("formData",formData)
+                            }
+                            
 
 
                           }}
@@ -319,7 +334,7 @@ if(sellerRefToken){
                     </Row>
                     <Row>
                       <Row style={{ display: "flex", flexDirection: "column" }}>
-                        <Card style={{ width: `${expand ? "45vw" : "58vw"}`,marginRight:0,height:"200px" }}>
+                        <Card style={{ width:"45vw",marginRight:0,height:"200px" }}>
                           {/* <CardHeader style={{ fontSize: "13px" }}>
                             This is the top text which I will add later
                           </CardHeader> */}
@@ -458,14 +473,20 @@ if(sellerRefToken){
 
                                 <Col></Col>
                                 <Col>
-                                  <a
+                                  <button
+                                    onClick={(e)=>{
+                                      formData["country"] = select;
+                                      formData["region"] = selectRegion;
+                                      localStorage.setItem('formData',JSON.stringify({country:select,region:selectRegion}))
+
+                                      window.open(`${!sellerAuthCode?selectedSellerURL:""}`,"_self")
+                                    }} 
                                     className="btn btn-primary"
                                     style={{display:`${selectedSellerURL?"block":"none"}`}}
-                                    href={`${!sellerAuthCode?selectedSellerURL:""}`}
-                                    target="_blank"
+                                   
                                   >
                                     Authenticate 
-                                  </a>
+                                  </button>
                                 </Col>
                               </Row>
                             </CardBody>
@@ -482,7 +503,7 @@ if(sellerRefToken){
                           marginTop: "20px",
                         }}
                       >
-                        <Card style={{ width: `${expand ? "45vw" : "58vw"}`,height:"200px" }}>
+                        <Card style={{ width: "45vw",height:"200px" }}>
                           {/* <CardHeader style={{ fontSize: "13px" }}>
                             This is the top text which I will add later
                           </CardHeader> */}
@@ -620,7 +641,7 @@ if(sellerRefToken){
                                   <a
                                     class="btn btn-primary"
                                     href="https://sellercentral.amazon.ca/apps/authorize/consent?application_id=amzn1.sp.solution.a32b112e-2b6b-411e-a756-16ce17e5efec&version=beta&state=stateexample"
-                                    target="_blank"
+                                    target="_self"
                                   >
                                     Authenticate
                                   </a>

@@ -86,7 +86,7 @@ export const dropDownData = [
     },
     {
       region: "Europe",
-      country: "India-",
+      country: "India",
       url: "https://sellercentral.amazon.in/apps/authorize/consent?application_id=amzn1.sp.solution.a32b112e-2b6b-411e-a756-16ce17e5efec&version=beta&state=stateexample",
     },
 
