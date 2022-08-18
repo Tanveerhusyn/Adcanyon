@@ -16,7 +16,7 @@
 
 */
 /*eslint-disable*/
-import { useState } from "react";
+import React,{ useState } from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
@@ -52,6 +52,10 @@ import {
   Col,
 } from "reactstrap";
 
+import {MdExpandLess} from 'react-icons/md'
+import AdCanBrand from "../../assets/img/brand/AdCanBrand.png"
+import { SidebarContext } from "components/context/SidebarContext";
+
 var ps;
 
 const Sidebar = (props) => {
@@ -74,7 +78,7 @@ const Sidebar = (props) => {
       return (
         <NavItem key={key}>
           <NavLink
-            to={prop.layout + prop.path}
+            to={prop.path}
             tag={NavLinkRRD}
             onClick={closeCollapse}
             activeClassName="active"
@@ -87,6 +91,9 @@ const Sidebar = (props) => {
     });
   };
 
+  const {expand,setExpand} = React.useContext(SidebarContext);
+
+  console.log("first",expand)
   const { bgColor, routes, logo } = props;
   let navbarBrandProps;
   if (logo && logo.innerLink) {
@@ -104,28 +111,28 @@ const Sidebar = (props) => {
   return (
     <Navbar
       className="navbar-vertical fixed-left navbar-light bg-white"
-      expand="md"
+      expand="sm"
+
+      style={{marginLeft:`${expand?"0":"-250px"}`,zIndex:'999'}}
       id="sidenav-main"
     >
       <Container fluid>
         {/* Toggler */}
-        <button
-          className="navbar-toggler"
-          type="button"
-          onClick={toggleCollapse}
-        >
-          <span className="navbar-toggler-icon" />
-        </button>
+       
         {/* Brand */}
-        {logo ? (
-          <NavbarBrand className="pt-0" {...navbarBrandProps}>
-            <img
-              alt={logo.imgAlt}
-              className="navbar-brand-img"
-              src={logo.imgSrc}
-            />
+        {expand ? (
+          <NavbarBrand className="pt-0 d-flex" {...navbarBrandProps}>
+           {/* <h1 style={{color:'#11cdef',margin:"0px 20px"}}>Adcanyon</h1> */}
+           <img style={{color:'#11cdef',margin:"0px 20px"}} src={AdCanBrand}/>
+            <MdExpandLess style={{color:"#11cdef",height:'40px',width:'40px',marginLeft:'15px',transform:'rotate(-90deg)'}} onClick={()=>setExpand(!expand)}/>
           </NavbarBrand>
-        ) : null}
+        ) :  <button
+        className="navbar-toggler"
+        type="button"
+        onClick={()=>setExpand(!expand)}
+      >
+        <span className="navbar-toggler-icon" />
+      </button>}
         {/* User */}
         <Nav className="align-items-center d-md-none">
           <UncontrolledDropdown nav>
@@ -236,36 +243,6 @@ const Sidebar = (props) => {
           {/* Divider */}
           <hr className="my-3" />
           {/* Heading */}
-          <h6 className="navbar-heading text-muted">Documentation</h6>
-          {/* Navigation */}
-          <Nav className="mb-md-3" navbar>
-            <NavItem>
-              <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/overview?ref=adr-admin-sidebar">
-                <i className="ni ni-spaceship" />
-                Getting started
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/colors?ref=adr-admin-sidebar">
-                <i className="ni ni-palette" />
-                Foundation
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/alerts?ref=adr-admin-sidebar">
-                <i className="ni ni-ui-04" />
-                Components
-              </NavLink>
-            </NavItem>
-          </Nav>
-          <Nav className="mb-md-3" navbar>
-            <NavItem className="active-pro active">
-              <NavLink href="https://www.creative-tim.com/product/argon-dashboard-pro-react?ref=adr-admin-sidebar">
-                <i className="ni ni-spaceship" />
-                Upgrade to PRO
-              </NavLink>
-            </NavItem>
-          </Nav>
         </Collapse>
       </Container>
     </Navbar>

@@ -32,7 +32,7 @@ import {
 const AdminNavbar = () => {
   return (
     <>
-      <Navbar className="navbar-top navbar-horizontal navbar-dark" expand="md">
+      <Navbar className="navbar-top navbar-horizontal navbar-dark" style={{background:"#11cdef"}} expand="md">
         <Container className="px-4">
           <NavbarBrand to="/" tag={Link}>
             <img

@@ -15,6 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+import React from 'react';
+import { SidebarContext } from "components/context/SidebarContext";
 import { Link } from "react-router-dom";
 // reactstrap components
 import {
@@ -34,16 +36,24 @@ import {
   Media,
 } from "reactstrap";
 
+import {GiHamburgerMenu} from 'react-icons/gi';
+import AdCanBrand from "../../assets/img/brand/AdCanBrand.png"
 const AdminNavbar = (props) => {
+  const {expand,setExpand} = React.useContext(SidebarContext);
   return (
     <>
-      <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
+      <Navbar className="navbar-top navbar-dark" style={{background:'#11cdef',position:'fixed',zIndex:"999",width:'100%'}} expand="md" id="navbar-main">
         <Container fluid>
+          {
+            !expand?
+          <GiHamburgerMenu style={{color:"white",height:'40px',width:'80px',cursor:'pointer',marginRight:'30px',marginLeft:'-20px'}} onClick={()=>setExpand(!expand)}/>
+:null
+          }
           <Link
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
             to="/"
           >
-            {props.brandText}
+        <img src={AdCanBrand} style={{width:'110px',height:'30px',background:"white",borderRadius:'10px'}}/>
           </Link>
           <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
             <FormGroup className="mb-0">
@@ -62,17 +72,11 @@ const AdminNavbar = (props) => {
               <DropdownToggle className="pr-0" nav>
                 <Media className="align-items-center">
                   <span className="avatar avatar-sm rounded-circle">
-                    <img
-                      alt="..."
-                      src={
-                        require("../../assets/img/theme/team-4-800x800.jpg")
-                          .default
-                      }
-                    />
+                   
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Jessica Jones
+                      Prasand Kumar
                     </span>
                   </Media>
                 </Media>
@@ -98,9 +102,9 @@ const AdminNavbar = (props) => {
                   <span>Support</span>
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                <DropdownItem >
                   <i className="ni ni-user-run" />
-                  <span>Logout</span>
+                <a href="/auth/login"> <span>Logout</span></a>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>

@@ -25,11 +25,12 @@ import AdminFooter from "components/Footers/AdminFooter.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
+import { SidebarContext } from "components/context/SidebarContext";
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
-
+  const {expand ,setExpand } = React.useContext(SidebarContext)
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -39,9 +40,10 @@ const Admin = (props) => {
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
+        console.log(prop)
         return (
           <Route
-            path={prop.layout + prop.path}
+            path={`${prop.path}`}
             component={prop.component}
             key={key}
           />
@@ -75,11 +77,11 @@ const Admin = (props) => {
           imgAlt: "...",
         }}
       />
-      <div className="main-content" ref={mainContent}>
-        <AdminNavbar
+      <div className="main-content" style={{marginLeft:`${expand?"250px":"0"}`}} ref={mainContent}>
+        {/* <AdminNavbar
           {...props}
           brandText={getBrandText(props.location.pathname)}
-        />
+        /> */}
         <Switch>
           {getRoutes(routes)}
           <Redirect from="*" to="/admin/index" />

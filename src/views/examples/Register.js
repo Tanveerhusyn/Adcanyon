@@ -1,22 +1,6 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-// reactstrap components
+import React from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import {
   Button,
   Card,
@@ -31,8 +15,69 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import jwt_decode from "jwt-decode";
 
 const Register = () => {
+  function handleCallBackResponse(response) {
+    var userData = jwt_decode(response.credential);
+    window.location.assign("/user-profile");
+  }
+
+  React.useEffect(() => {
+    /*global google */
+
+    google.accounts.id.initialize({
+      client_id:
+        "128282856462-lobjejm1a8bnna711kktsuah49v5p8i8.apps.googleusercontent.com",
+      callback: handleCallBackResponse,
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("singInWithGoogle"),
+      { theme: "outline", siez: "large" }
+    );
+    google.accounts.id.prompt();
+  }, []);
+
+  const [userDetails, setUserDetails] = React.useState({
+    title: "Mr",
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    acceptTerms: true,
+  });
+
+
+  const [error,setError] = React.useState("")
+  // message: "Validation error: \"title\" is required, \"firstName\" is required, \"lastName\" is required, \"email\" is required, \"password\" is required, \"confirmPassword\" is required, \"acceptTerms\" is required"
+
+  const handleChange = (e) => {
+    setUserDetails((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  // .post("http://localhost:4000/accounts/register", {
+  const [reg, setReg] = React.useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  console.log(userDetails);
+     
+    axios({
+      method: "post",
+      url: "https://adcanyonapinodejs.herokuapp.com/accounts/register",
+      data: userDetails,
+    })
+      .then((res) => {
+        console.log("response:", res.data);
+        window.location.assign("/auth/login");
+        setReg(true);
+      })
+      .catch((er) => setError(er.response.data.message));
+  };
+  // setReg ? location.replace("http://localhost:3000/auth/login") : null;
+
   return (
     <>
       <Col lg="6" md="8">
@@ -41,41 +86,8 @@ const Register = () => {
             <div className="text-muted text-center mt-2 mb-4">
               <small>Sign up with</small>
             </div>
-            <div className="text-center">
-              <Button
-                className="btn-neutral btn-icon mr-4"
-                color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <span className="btn-inner--icon">
-                  <img
-                    alt="..."
-                    src={
-                      require("../../assets/img/icons/common/github.svg")
-                        .default
-                    }
-                  />
-                </span>
-                <span className="btn-inner--text">Github</span>
-              </Button>
-              <Button
-                className="btn-neutral btn-icon"
-                color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <span className="btn-inner--icon">
-                  <img
-                    alt="..."
-                    src={
-                      require("../../assets/img/icons/common/google.svg")
-                        .default
-                    }
-                  />
-                </span>
-                <span className="btn-inner--text">Google</span>
-              </Button>
+            <div className="text-center" style={{marginRight:'auto', marginLeft:'auto'}}>
+              <div id="singInWithGoogle" style={{width:'95%',  display:'flex', justifyContent:'center', alignItems:'center'}}></div>
             </div>
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
@@ -90,9 +102,32 @@ const Register = () => {
                       <i className="ni ni-hat-3" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input placeholder="Name" type="text" />
+                  <Input
+                    placeholder="First Name"
+                    name="firstName"
+                    type="text"
+                    onChange={handleChange}
+                  />
                 </InputGroup>
               </FormGroup>
+
+              <FormGroup>
+                <InputGroup className="input-group-alternative mb-3">
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="ni ni-hat-3" />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input
+                    placeholder="Last Name"
+                    name="lastName"
+                    type="text"
+                    onChange={handleChange}
+                  />
+                </InputGroup>
+              </FormGroup>
+
+
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
                   <InputGroupAddon addonType="prepend">
@@ -104,9 +139,12 @@ const Register = () => {
                     placeholder="Email"
                     type="email"
                     autoComplete="new-email"
+                    name="email"
+                    onChange={handleChange}
                   />
                 </InputGroup>
               </FormGroup>
+
               <FormGroup>
                 <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
@@ -118,15 +156,29 @@ const Register = () => {
                     placeholder="Password"
                     type="password"
                     autoComplete="new-password"
+                    name="password"
+                    onChange={handleChange}
                   />
                 </InputGroup>
               </FormGroup>
-              <div className="text-muted font-italic">
-                <small>
-                  password strength:{" "}
-                  <span className="text-success font-weight-700">strong</span>
-                </small>
-              </div>
+
+              <FormGroup>
+                <InputGroup className="input-group-alternative">
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="ni ni-lock-circle-open" />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input
+                    placeholder="Password"
+                    type="password"
+                    autoComplete="new-password"
+                    name="confirmPassword"
+                    onChange={handleChange}
+                  />
+                </InputGroup>
+              </FormGroup>
+
               <Row className="my-4">
                 <Col xs="12">
                   <div className="custom-control custom-control-alternative custom-checkbox">
@@ -146,11 +198,20 @@ const Register = () => {
                         </a>
                       </span>
                     </label>
+                   
                   </div>
                 </Col>
+                {
+                      error?<p className="" style={{color:'red',textAlign:'center',fontSize:"15px",marginTop:'3px'}}>{error}</p>:null
+                    }
               </Row>
               <div className="text-center">
-                <Button className="mt-4" color="primary" type="button">
+                <Button
+                  onClick={handleSubmit}
+                  className="mt-4"
+                  color="primary"
+                  type="button"
+                >
                   Create account
                 </Button>
               </div>
