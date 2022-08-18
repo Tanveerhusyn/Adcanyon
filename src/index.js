@@ -29,6 +29,7 @@ import AdminLayout from "layouts/Admin.js";
 import AdminNavbar from "components/Navbars/AdminNavbar";
 import AuthLayout from "layouts/Auth.js";
 import Sidebar from 'components/Sidebar/Sidebar'
+import ResetPassword from 'views/examples/ResetPassword'
 
 ReactDOM.render(
   <SidebarContextProvider>
@@ -36,7 +37,8 @@ ReactDOM.render(
   <BrowserRouter>
 
   {
-    window.location.pathname.includes("auth")==false && window.location.pathname!=="/"?
+    
+    window.location.pathname.includes("auth")==false && window.location.pathname!=="/"&&!window.location.pathname.includes("reset")?
  <>
     <AdminNavbar
          
@@ -59,9 +61,11 @@ ReactDOM.render(
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/user-profile" component={Profile} />
       <Route path="/user-profile/:id" component={Profile} />
+      <Route path="/reset-password/:id" component={ResetPassword} />
+      <Route path="/reset-password" component={ResetPassword} />
       <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
     {
-      window.location.pathname.includes("auth") || window.location.pathname=="/"?<Redirect from="*" to="/auth/login" />:<Redirect from="*" to="/user-profile" />
+      !localStorage.getItem("user")?<Redirect from="*" to="/auth/login" />:<Redirect from="*" to="/user-profile" />
     }  
     </Switch>
   </BrowserRouter>

@@ -16,6 +16,7 @@ import {
   Col,
 } from "reactstrap";
 import jwt_decode from "jwt-decode";
+import AdCanBrand from '../../assets/img/brand/AdCanBrand.png'
 
 const Register = () => {
   function handleCallBackResponse(response) {
@@ -40,9 +41,7 @@ const Register = () => {
   }, []);
 
   const [userDetails, setUserDetails] = React.useState({
-    title: "Mr",
-    firstName: "",
-    lastName: "",
+    userName:"",
     email: "",
     password: "",
     confirmPassword: "",
@@ -82,15 +81,15 @@ const Register = () => {
     <>
       <Col lg="6" md="8">
         <Card className="bg-secondary shadow border-0">
-          <CardHeader className="bg-transparent pb-5">
-            <div className="text-muted text-center mt-2 mb-4">
-              <small>Sign up with</small>
+          <CardHeader className="bg-transparent">
+            <div style={{display:'flex',justifyContent:'center',alignItems:'center',margin:"7px 2px"}}>
+              <img src={AdCanBrand} style={{width:"150px",height:"60px"}} />
             </div>
             <div className="text-center" style={{marginRight:'auto', marginLeft:'auto'}}>
               <div id="singInWithGoogle" style={{width:'95%',  display:'flex', justifyContent:'center', alignItems:'center'}}></div>
             </div>
           </CardHeader>
-          <CardBody className="px-lg-5 py-lg-5">
+          <CardBody className="px-lg-5 py-lg-2">
             <div className="text-center text-muted mb-4">
               <small>Or sign up with credentials</small>
             </div>
@@ -103,29 +102,14 @@ const Register = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="First Name"
-                    name="firstName"
+                    placeholder="User Name"
+                    name="userName"
                     type="text"
                     onChange={handleChange}
                   />
                 </InputGroup>
               </FormGroup>
 
-              <FormGroup>
-                <InputGroup className="input-group-alternative mb-3">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-hat-3" />
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input
-                    placeholder="Last Name"
-                    name="lastName"
-                    type="text"
-                    onChange={handleChange}
-                  />
-                </InputGroup>
-              </FormGroup>
 
 
               <FormGroup>
@@ -181,23 +165,15 @@ const Register = () => {
 
               <Row className="my-4">
                 <Col xs="12">
-                  <div className="custom-control custom-control-alternative custom-checkbox">
-                    <input
-                      className="custom-control-input"
-                      id="customCheckRegister"
-                      type="checkbox"
-                    />
-                    <label
-                      className="custom-control-label"
-                      htmlFor="customCheckRegister"
-                    >
-                      <span className="text-muted">
-                        I agree with the{" "}
-                        <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                          Privacy Policy
+                  <div className="text-start">
+          
+                      <small className="text-muted">
+                        Already have account?{" "}
+                        <a href="/auth/login">
+                         Login
                         </a>
-                      </span>
-                    </label>
+                      </small>
+              
                    
                   </div>
                 </Col>

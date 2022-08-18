@@ -53,7 +53,7 @@ const Profile = () => {
   const [RegiondropdownOpen, setRegionDropdownOpen] = React.useState(false);
   const [RegiondropdownOpen2, setRegionDropdownOpen2] = React.useState(false);
 
-  
+  const[currentUser,setCurrentUser] = React.useState({});
   const [show, setShow] = React.useState(false);
   const [select, setSelect] = React.useState("select");
   const [selectCountry2, setSelectCountry2] = React.useState("select");
@@ -126,6 +126,17 @@ const Profile = () => {
    setSelectRegion(formD.region)
    
   }
+
+  if(localStorage.getItem("user")){
+    const user = JSON.parse(localStorage.getItem("user"))
+    if(user){
+      if(user.firstName)setCurrentUser({userName:user.firstName,email:user.email})
+      else if(user.userName)setCurrentUser({userName:user.userName,email:user.email})
+      else if(user.name)setCurrentUser({userName:user.name,email:user.email})
+      
+    }
+    
+   }
 
    
   },[])
@@ -235,7 +246,7 @@ if(sellerRefToken){
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue="Jesse"
+                            defaultValue={currentUser.userName}
                             id="input-last-name"
                             name="userName"
                             onChange={(e)=>handleFormData(e)}
@@ -255,6 +266,7 @@ if(sellerRefToken){
                           <Input
                             className="form-control-alternative"
                             id="input-email"
+                            defaultValue={currentUser.email}
                             onChange={(e)=>handleFormData(e)}
                             name="email"
                             placeholder="jesse@example.com"

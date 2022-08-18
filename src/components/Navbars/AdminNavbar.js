@@ -40,6 +40,17 @@ import {GiHamburgerMenu} from 'react-icons/gi';
 import AdCanBrand from "../../assets/img/brand/AdCanBrand.png"
 const AdminNavbar = (props) => {
   const {expand,setExpand} = React.useContext(SidebarContext);
+  const [currentUser, setCurrentUser] = React.useState("")
+  
+  React.useEffect(()=>{
+    const user = JSON.parse(localStorage.getItem("user"))
+    if(user){
+      if(user.firstName)setCurrentUser(user.firstName)
+      else if(user.userName)setCurrentUser(user.userName)
+      else if(user.name)setCurrentUser(user.name)
+      console.log(user)
+    }
+  })
   return (
     <>
       <Navbar className="navbar-top navbar-dark" style={{background:'#11cdef',position:'fixed',zIndex:"999",width:'100%'}} expand="md" id="navbar-main">
@@ -55,18 +66,7 @@ const AdminNavbar = (props) => {
           >
         <img src={AdCanBrand} style={{width:'110px',height:'30px',background:"white",borderRadius:'10px'}}/>
           </Link>
-          <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
-            <FormGroup className="mb-0">
-              <InputGroup className="input-group-alternative">
-                <InputGroupAddon addonType="prepend">
-                  <InputGroupText>
-                    <i className="fas fa-search" />
-                  </InputGroupText>
-                </InputGroupAddon>
-                <Input placeholder="Search" type="text" />
-              </InputGroup>
-            </FormGroup>
-          </Form>
+        
           <Nav className="align-items-center d-none d-md-flex" navbar>
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
@@ -76,7 +76,7 @@ const AdminNavbar = (props) => {
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Prasand Kumar
+                      {currentUser}
                     </span>
                   </Media>
                 </Media>
@@ -104,7 +104,10 @@ const AdminNavbar = (props) => {
                 <DropdownItem divider />
                 <DropdownItem >
                   <i className="ni ni-user-run" />
-                <a href="/auth/login"> <span>Logout</span></a>
+                <a onClick={()=>{
+                  localStorage.removeItem("user")
+                  window.location.assign("/auth/login")
+                }}> <span>Logout</span></a>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>

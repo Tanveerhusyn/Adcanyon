@@ -40,7 +40,7 @@ const Login = () => {
     
     window.location.replace("/user-profile")
 
-    localStorage.setItem("user",userData)
+    localStorage.setItem("user",JSON.stringify(userData))
    }
     
   }
@@ -73,7 +73,7 @@ const Login = () => {
         console.log("response:", res.data);
 
         console.log("token", res.data);
-        localStorage.setItem("user",res.data)
+        localStorage.setItem("user",JSON.stringify(res.data))
         window.location.replace("/user-profile")
         console.log("Successfull Login!");
       })
@@ -169,7 +169,7 @@ const Login = () => {
               href="/resetPassword"
               onClick={(e) => e.preventDefault()}
             > */}
-              <Link to="/auth/resetPassword">
+              <Link to="/reset-password">
                 <small style={{color:"white"}}>Forgot password?</small>
               </Link>
             {/* </a> */}
