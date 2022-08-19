@@ -44,7 +44,7 @@ function App() {
          logo={{
            innerLink: "/user-profile",
            imgSrc: require("./assets/img/brand/argon-react.png").default,
-           imgAlt: "...",
+           
          }}
        />
  
