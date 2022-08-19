@@ -38,7 +38,7 @@ ReactDOM.render(
 
   {
     
-    window.location.pathname.includes("auth")==false &&!window.location.pathname.includes("reset")?
+    window.location.pathname.includes("auth")==false || window.location.pathname!="/" || !window.location.pathname.includes("reset")?
  <>
     <AdminNavbar
          
