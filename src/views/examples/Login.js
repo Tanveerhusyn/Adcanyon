@@ -100,7 +100,7 @@ const Login = () => {
             </div>
             </div>
           </CardHeader>
-          <CardBody className="px-lg-5 py-lg-5">
+          <CardBody className="px-lg-5 py-lg-3">
             <div className="text-center text-muted mb-4">
               <small>Or sign in with credentials</small>
             </div>

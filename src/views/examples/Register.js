@@ -24,6 +24,8 @@ const Register = () => {
     window.location.assign("/user-profile");
   }
 
+  window.document.body.style.overflow = "hidden";
+
   React.useEffect(() => {
     /*global google */
 
@@ -79,7 +81,7 @@ const Register = () => {
 
   return (
     <>
-      <Col lg="6" md="8">
+      <Col lg="5" md="8">
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent">
             <div style={{display:'flex',justifyContent:'center',alignItems:'center',margin:"7px 2px"}}>
@@ -89,11 +91,11 @@ const Register = () => {
               <div id="singInWithGoogle" style={{width:'95%',  display:'flex', justifyContent:'center', alignItems:'center'}}></div>
             </div>
           </CardHeader>
-          <CardBody className="px-lg-5 py-lg-2">
+          <CardBody style={{width:"100%",display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}} className="  py-lg-2">
             <div className="text-center text-muted mb-4">
               <small>Or sign up with credentials</small>
             </div>
-            <Form role="form">
+            <Form role="form" style={{width:"80%"}}>
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
                   <InputGroupAddon addonType="prepend">
@@ -163,7 +165,7 @@ const Register = () => {
                 </InputGroup>
               </FormGroup>
 
-              <Row className="my-4">
+              <Row className="my-2">
                 <Col xs="12">
                   <div className="text-start">
           
