@@ -70,7 +70,7 @@ const Register = () => {
     })
       .then((res) => {
         console.log("response:", res.data);
-        window.location.assign("/auth/login");
+        // window.location.assign("/auth/login");
         setReg(true);
       })
       .catch((er) => setError(er.response.data.message));

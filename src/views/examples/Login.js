@@ -27,6 +27,8 @@ const Login = () => {
     password: "",
   });
 
+  window.document.body.style.overflow = "hidden";
+
   const [error, setError] = React.useState("")
   const handleChange = (e) => {
     setUserDetails((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -169,7 +171,7 @@ const Login = () => {
               href="/resetPassword"
               onClick={(e) => e.preventDefault()}
             > */}
-              <Link to="/reset-password">
+              <Link to="/auth/forget-password">
                 <small style={{color:"white"}}>Forgot password?</small>
               </Link>
             {/* </a> */}

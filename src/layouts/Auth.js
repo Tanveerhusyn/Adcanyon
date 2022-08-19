@@ -64,7 +64,7 @@ const Auth = (props) => {
         {/* <AuthNavbar /> */}
        
         {/* Page content */}
-        <Container className="mt-3 pb-5">
+        <Container className="mt-4 pb-5">
           <Row className="justify-content-center">
             <Switch>
               {getRoutes(routes)}

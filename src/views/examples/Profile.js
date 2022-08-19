@@ -180,15 +180,17 @@ if(sellerAuthCode || advertAuthCode ){
 }
 
 if(sellerRefToken){
-  const user = JSON.parse(localStorage.getItem("formData"))
+  const userData = JSON.parse(localStorage.getItem("formData"))
+  const user = JSON.parse(localStorage.getItem("user"))
+  
   const reqData = {
-    userName:user?.userName||"",
+    userName:user?.userName||user.name||"",
     email:user?.email||"",
-    brandName:user?.brandName||"",
+    brandName:userData?.brandName||"",
     sellerRefreshToken:sellerRefToken,
     advertRefreshToken:advertRefToken,
-    country:user?.country||null,
-    region:user?.region||null
+    country:userData?.country||"",
+    region:userData?.region||""
      
   }
 
