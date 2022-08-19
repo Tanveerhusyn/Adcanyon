@@ -84,7 +84,7 @@ const Login = () => {
 
   return (
     <>
-      <Col lg="5" md="7">
+      <Col lg="5" md="7" className="mt-6">
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent pb-5" style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
           {/* <h1 className="text-center mb-4">Welcome to Adcanyon</h1> */}
