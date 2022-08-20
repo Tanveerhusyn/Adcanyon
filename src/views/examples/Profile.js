@@ -72,14 +72,15 @@ const Profile = () => {
     setCountryDropdownOpen2((prevState) => !prevState);
   const [isExOpen, setExIsOpen] = React.useState(false);
   const [isExOpen2, setExIsOpen2] = React.useState(false);
-
+ 
+  
   const[sellerAuthCode,setSellerAuthCode] = React.useState("")
   const[sellerPartnerID,setSellerPartnerID] = React.useState("")
   const[advertAuthCode,setAdvertAuthCode] = React.useState("")
 
-  const [sellerRefToken,setSellerRefToken] = React.useState("");
+  // const [sellerRefToken,setSellerRefToken] = React.useState("");
   const [advertRefToken,setAdvertRefToken] = React.useState("");
-
+  const [lock,setLock] = React.useState(false);
   const toggleEx = () => setExIsOpen(!isExOpen);
   const toggleEx2 = () => setExIsOpen2(!isExOpen2);
   const { expand } = React.useContext(SidebarContext);
@@ -118,36 +119,51 @@ const Profile = () => {
     
       setAdvertAuthCode(resultUrl[1])
     }
+  
  
-  if(localStorage.getItem("formData")){
-   const formD =  JSON.parse( localStorage.getItem("formData"))
 
-   setSelect(formD.country)
-   setSelectRegion(formD.region)
-   
-  }
-
-  if(localStorage.getItem("user")){
     const user = JSON.parse(localStorage.getItem("user"))
     if(user){
+      console.log("user",user)
       if(user.firstName)setCurrentUser({userName:user.firstName,email:user.email})
       else if(user.userName)setCurrentUser({userName:user.userName,email:user.email})
       else if(user.name)setCurrentUser({userName:user.name,email:user.email})
+
+    axios.post("https://adcanyonapinodejs.herokuapp.com/api/getaccount",{email:user.email})
+      .then((res)=>{
+        console.log("Response",res.data)
+          if(res.data.sellerRefreshToken){
+            setSelect(res.data.country)
+            setSelectRegion(res.data.region)
+           setExIsOpen(true);
+            setLock(true)
+          }
+      })
+      .catch((err)=>console.error(err))
       
     }
-    
-   }
+  
+  
+  // if(localStorage.getItem("formData")){
+  //  const formD =  JSON.parse( localStorage.getItem("formData"))
+
+  //  setSelect(formD.country)
+  //  setSelectRegion(formD.region)
+   
+  // }
 
    
   },[])
 
 React.useEffect(()=>{
-  if(sellerAuthCode){
-    setExIsOpen(true);
+//   if(sellerAuthCode){
+//     setExIsOpen(true);
     
-}
+// }
 
 if(sellerAuthCode || advertAuthCode ){
+   
+  let sellerRefToken="";
   const data =
   {
     grant_type:"authorization_code",
@@ -156,53 +172,68 @@ if(sellerAuthCode || advertAuthCode ){
     code:sellerAuthCode
   }
 
-  let axiosConfig = {
-    headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        "Access-Control-Allow-Origin": "*",
-    }
-  };
+  // let axiosConfig = {
+  //   headers: {
+  //       'Content-Type': 'application/json;charset=UTF-8',
+  //       "Access-Control-Allow-Origin": "*",
+  //   }
+  // };
 
-  console.log("ready",data)
-
-  axios.post("https://api.amazon.com/auth/o2/token",data)
-  .then((res)=>{
-    if(sellerAuthCode && !advertAuthCode){
-        setSellerRefToken(res.refresh_token)
-    }
-    else if(advertAuthCode && !sellerAuthCode){
-      setAdvertRefToken(res.refresh_token)
-
-    }
   
-  })
-  .catch((err)=>console.error(err))
+   let response =  axios.post("https://api.amazon.com/auth/o2/token",data)
+    .then((res)=>res.data)
+    .catch((err)=>console.error(err))
+  
+
+
+    response.then((data)=>{
+      const userData = JSON.parse(localStorage.getItem("formData"))
+      const user = JSON.parse(localStorage.getItem("user"))
+      console.log("Seller Auth",data)
+      
+     if(user && userData){
+      console.log("Response")
+      const reqData = {
+        userName:user?.userName||user.name||"",
+        email:user?.email||"",
+        brandName:userData?.brandName||"",
+        sellerRefreshToken:data.refresh_token,
+        advertRefreshToken:advertRefToken,
+        country:userData?.country||"",
+        region:userData?.region||""
+         
+      }
+    
+     axios.post("https://adcanyonapinodejs.herokuapp.com/api/store",reqData)
+      .then((res)=>{
+        console.log(res);
+            setSelect(res.data.country)
+            setSelectRegion(res.data.region)
+            setExIsOpen(true);
+            setLock(true)
+        localStorage.removeItem('formData')
+      
+      })
+      .catch((err)=>console.error(err))
+     }
+    })
+      
+    
+    
+  
+
+  
+ 
+
+ 
 }
+ 
 
-if(sellerRefToken){
-  const userData = JSON.parse(localStorage.getItem("formData"))
-  const user = JSON.parse(localStorage.getItem("user"))
-  
-  const reqData = {
-    userName:user?.userName||user.name||"",
-    email:user?.email||"",
-    brandName:userData?.brandName||"",
-    sellerRefreshToken:sellerRefToken,
-    advertRefreshToken:advertRefToken,
-    country:userData?.country||"",
-    region:userData?.region||""
-     
-  }
 
-  axios.post("https://adcanyonapinodejs.herokuapp.com/api/store",reqData)
-  .then((res)=>{
-    console.log(res);
-  
-  })
-  .catch((err)=>console.error(err))
-
-}
 },[sellerAuthCode,advertAuthCode])
+
+
+
 
   const handleFormData = (e)=>{
       e.preventDefault();
@@ -386,11 +417,11 @@ if(sellerRefToken){
                               <div style={{ marginTop: "20px" ,display:'flex',flexDirection:'column'}}>
                                 <Switch
                                   checked={isExOpen}
-                                  disabled={sellerAuthCode}
+                                  disabled={lock}
                                   onChange={toggleEx}
                                   inputProps={{ "aria-label": "controlled" }}
                                 />
-                                <small style={{color:'green',display:`${sellerAuthCode?"block":"none"}`}}>Enabled</small>
+                                <small style={{color:'green',display:`${lock?"block":"none"}`}}>Enabled</small>
                               </div>
                             </div>
                             <p style={{ fontSize: "13px" }}>
@@ -429,7 +460,7 @@ if(sellerRefToken){
                                      
                                       direction="down"
                                     >
-                                      <DropdownToggle    disabled={sellerAuthCode} caret>
+                                      <DropdownToggle    disabled={lock} caret>
                                         {selectRegion}
                                       </DropdownToggle>
 
@@ -465,7 +496,7 @@ if(sellerRefToken){
                                     toggle={Countrytoggle}
                                     direction="down"
                                   >
-                                    <DropdownToggle  disabled={sellerAuthCode} caret>
+                                    <DropdownToggle  disabled={lock} caret>
                                       {select}
                                     </DropdownToggle>
 

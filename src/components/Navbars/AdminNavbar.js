@@ -48,7 +48,7 @@ const AdminNavbar = (props) => {
       if(user.firstName)setCurrentUser(user.firstName)
       else if(user.userName)setCurrentUser(user.userName)
       else if(user.name)setCurrentUser(user.name)
-      console.log(user)
+     
     }
   })
   return (
