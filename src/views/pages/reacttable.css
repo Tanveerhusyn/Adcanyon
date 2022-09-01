@@ -1,0 +1,76 @@
+.main-table-container{
+    display: flex;
+    border: 0.3px solid #e8e8e8;
+    width: 78vw;
+    position: relative;
+    background:rgb(247, 247, 247);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+  
+    
+}
+.table-parent::-webkit-scrollbar {
+    width: 12px;  
+    height: 10px;      
+    padding-left: 10px; 
+            /* width of the entire scrollbar */
+  }
+
+.table-parent::-webkit-scrollbar-track {
+    background: rgb(221, 218, 218);        /* color of the tracking area */
+  }
+.table-parent::-webkit-scrollbar-thumb {
+    background-color:  	 #9b9b97;
+     /* color of the scroll thumb */
+    border-radius: 10px;       /* roundness of the scroll thumb */
+     /* creates padding around scroll thumb */
+}
+.pagination-buttons{
+    display: flex;
+     
+}
+.pagination-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:0px 12px;
+   background: #e7e4e4;
+   border:none;
+   cursor: pointer;
+   outline: none;
+   border-radius: 10px;
+   color:black;
+   text-align: center;
+   width: 40px;
+   height: 33px;
+   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+.pagination-main{
+    display: flex;
+    width: 100%;
+    padding:10px 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+.table-parent{
+    width: 85vw;
+    overflow: auto;
+}
+
+.main-table-container> table{
+    width: fit-content;
+   
+  
+     
+      
+   
+    
+}
+
+ 
+.tr-table{
+    border: none;
+    outline: none;
+}

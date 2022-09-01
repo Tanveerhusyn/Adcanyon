@@ -11,6 +11,8 @@ import {
   InputGroup,
   Row,
   Col,
+  Spinner,
+  Container
 } from "reactstrap";
 
 import axios from "axios";
@@ -30,6 +32,7 @@ const Login = () => {
   window.document.body.style.overflow = "hidden";
 
   const [error, setError] = React.useState("")
+  const [loading,setLoading] =React.useState(false)
   const handleChange = (e) => {
     setUserDetails((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -66,26 +69,27 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("data before sumbision:", userDetails);
+    setLoading(true)
     axios({
       method: "post",
       url: "https://adcanyonapinodejs.herokuapp.com/accounts/authenticate",
       data: userDetails,
     })
       .then((res) => {
-        console.log("response:", res.data);
-
-        console.log("token", res.data);
+        setLoading(false)
         localStorage.setItem("user",JSON.stringify(res.data))
         window.location.replace("/user-profile")
         console.log("Successfull Login!");
       })
-      .catch((er) => setError(er.response.data.message));
+      .catch((er) => {setError("Invalid Credentials")
+       setLoading(false)});
   };
 
   return (
-    <>
-      <Col lg="5" md="7" className="mt-4">
-        <Card className="bg-secondary shadow border-0">
+       <Container fluid style={{width:'100vw',height:'100vh',margin:0,paddingTop:"40px"}} className=" bg-blue">
+          <Row style={{margin:0}} className="justify-content-center">
+      <Col lg="5" md="5" className="mt-4">
+        <Card style={{width:'90%'}} className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent pb-5" style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
           {/* <h1 className="text-center mb-4">Welcome to Adcanyon</h1> */}
           <img style={{width:'120px',height:"50px"}} src={adCanBrand} />
@@ -158,6 +162,9 @@ const Login = () => {
                   color="primary"
                   type="button"
                 >
+                  {loading?<Spinner className="mr-2" size="sm">
+    Loading...
+  </Spinner>:null}
                   Sign in
                 </Button>
               </div>
@@ -183,13 +190,15 @@ const Login = () => {
               onClick={(e) => e.preventDefault()}
             >
               <Link to="/auth/register">
-                <small style={{color:"white"}}>Create new account</small>
+                <small style={{color:"white",marginRight:'50px'}}>Create new account</small>
               </Link>
             </a>
           </Col>
         </Row>
       </Col>
-    </>
+      </Row>
+      </Container>
+    
   );
 };
 

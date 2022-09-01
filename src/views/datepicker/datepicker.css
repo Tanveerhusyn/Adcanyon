@@ -1,0 +1,58 @@
+ 
+    .wrapper-cls{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #e7e4e4;
+        border:none;
+        min-width: 350px;
+        padding: 5px 10px;
+        outline: none;
+        border-radius: 40px;
+        color:black;
+        text-align: center;
+        width: fit-content;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    }
+    .react-datepicker-popper{
+        margin-left: -150px;
+    }
+    .react-datepicker-wrapper{
+        width:230px;
+    }
+    .react-datepicker__header {
+        background-color: white;
+    }
+    .react-datepicker__day-name{
+        color:rgb(28, 96, 175);
+    }
+    .react-datepicker__input-container input {
+        display: block;
+        background: #e7e4e4;
+        border: none;
+        outline: none;
+        width: 230px;
+       
+      
+    }
+    .rmdp-week-day{
+        color: rgb(0, 0, 0);
+    }
+    .rmdp-container{
+        border: none;
+        outline: none;
+    } 
+    .rmdp-day.rmdp-today span{
+        background-color: rgb(28, 96, 175);
+    }
+    .rmdp-range{
+
+        background-color: rgb(28, 96, 175);
+    }
+    .rmdp-input{
+        border: none;
+
+        background-color: #e7e4e4;
+         
+    }
+   

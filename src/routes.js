@@ -16,22 +16,23 @@
 
 */
 import Index from "views/Index.js";
-import Profile from "views/examples/Profile.js";
-import Maps from "views/examples/Maps.js";
-import Register from "views/examples/Register.js";
-import Login from "views/examples/Login.js";
-import ForgetPassword from "views/examples/ForgetPassword.js";
-import ResetPassword from "views/examples/ResetPassword.js";
-import Tables from "views/examples/Tables.js";
-import Icons from "views/examples/Icons.js";
+import Profile from "views/pages/Profile.js";
+import Maps from "views/pages/Maps.js";
+import Register from "views/pages/Register.js";
+import Dashboard from "views/pages/Dashboard"
+import Login from "views/pages/Login.js";
+import ForgetPassword from "views/pages/ForgetPassword.js";
+import ResetPassword from "views/pages/ResetPassword.js";
+import Tables from "views/pages/Tables.js";
+import Icons from "views/pages/Icons.js";
 
 var routes = [
   {
-    path: "/index",
+    path: "/dashboard",
     name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: Index,
-    layout: "/admin",
+    icon: "ni ni-key-25 text-info",
+    component: Dashboard,
+    layout: "/",
   },
   
   {
@@ -42,33 +43,8 @@ var routes = [
     layout: "/admin",
   },
   
-  {
-    path: "/login",
-    name: "Login",
-    icon: "ni ni-key-25 text-info",
-    component: Login,
-    layout: "/auth",
-  },
-  {
-    path: "/forget-password",
-    name: "Forget Password",
-    icon: "ni ni-key-25 text-info",
-    component: ForgetPassword,
-    layout: "/auth",
-  },
-  // {
-  //   path: "/reset-password",
-  //   name: "Reset Password",
-  //   icon: "ni ni-key-25 text-info",
-  //   component: ResetPassword,
-  //   layout: "/auth",
-  // },
-  {
-    path: "/register",
-    name: "Register",
-    icon: "ni ni-circle-08 text-pink",
-    component: Register,
-    layout: "/auth",
-  },
+  
+ 
+  
 ];
 export default routes;

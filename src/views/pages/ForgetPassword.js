@@ -10,24 +10,18 @@ import {
     InputGroupText,
     InputGroup,
     Row,
+    Container,
     Col,
   } from "reactstrap";
   
   import axios from "axios";
   import React from "react";
   
-  const ResetPassword = () => {
-
-    const url = window.location.search.split("=");
-
-
-    const [tokenCode, setTokenCode] = React.useState(url[1])
+  const ForgetPassword = () => {
     const [userDetails, setUserDetails] = React.useState({
-        token:tokenCode,
+      email: "",
     });
   
-
-   
     const handleChange = (e) => {
       setUserDetails((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
@@ -36,33 +30,28 @@ import {
   
     const handleSubmit = async (e) => {
       e.preventDefault();
-
-      console.log("dslfjks",userDetails)
-    //   console.log("data before sumbision:", userDetails);
+      console.log("data before sumbision:", userDetails);
       axios({
         method: "post",
-        url: "https://adcanyonapinodejs.herokuapp.com/accounts/reset-password",
+        url: "https://adcanyonapinodejs.herokuapp.com/accounts/forgot-password",
         data: userDetails,
       })
         .then((res) => {
           console.log("response:", res.data);
-          
-          setLinkSent(res.data?.message || "Successful");
-
-          window.location.assign("/auth/login")
-          
+          setLinkSent(res.data.message);
   
         })
         .catch((er) => console.log(er));
     };
   
     return (
-      <>
-        <Col lg="5" md="7" style={{marginLeft:"300px"}}>
+      <Container fluid style={{width:'100vw',height:'100vh',margin:0,paddingTop:"40px"}} className=" bg-blue">
+          <Row style={{margin:0}} className="justify-content-center">
+        <Col lg="5" md="7">
           <Card className="bg-secondary shadow border-0 mt-7">
             <CardHeader className="bg-transparent pb-5">
               <div className="text-muted text-center mt-2 mb-3">
-                <small>Please enter a new Password</small>
+                <small>Please enter you email to get reset password link</small>
               </div>
             </CardHeader>
             <CardBody className="px-lg-5 py-lg-5">
@@ -75,28 +64,12 @@ import {
                       </InputGroupText>
                     </InputGroupAddon>
                     <Input
-                      placeholder="Password"
-                      type="text"
-                      name="password"
+                      placeholder="Email"
+                      type="email"
+                      name="email"
+                      autoComplete="new-email"
                       onChange={handleChange}
                     />
-                    
-                  </InputGroup>
-                </FormGroup>
-                <FormGroup className="mb-3">
-                  <InputGroup className="input-group-alternative">
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <i className="ni ni-email-83" />
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Input
-                      placeholder="Confirm Password"
-                      type="text"
-                      name="confirmPassword"
-                      onChange={handleChange}
-                    />
-                    
                   </InputGroup>
                 </FormGroup>
                 <div className="custom-control custom-control-alternative custom-checkbox"></div>
@@ -122,13 +95,14 @@ import {
                 </div>
               </Form>
   
-              <h5 style={{ color: "green" }}>{linkSent}</h5>
+              <small style={{ color: "blue",textAlign:'center',textJustify:"revert" }}>{linkSent}</small>
             </CardBody>
           </Card>
         </Col>
-      </>
+      </Row>
+      </Container>
     );
   };
   
-  export default ResetPassword;
+  export default ForgetPassword;
   
