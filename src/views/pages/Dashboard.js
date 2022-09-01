@@ -30,7 +30,6 @@ import {
 
 import { ColumnData } from "../../utils/ColumnData.js";
 import RechartGraph from "./Rechart";
-import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 import FilterForm from "./FilterForm";
 import { SidebarContext } from "components/context/SidebarContext";
 

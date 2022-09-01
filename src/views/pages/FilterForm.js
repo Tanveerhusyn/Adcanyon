@@ -3,8 +3,7 @@ import React from 'react'
 import { Paper,Grid,Typography,Divider,InputLabel,Select,MenuItem, TextField, IconButton } from "@mui/material";
 import {Clear, Delete, DeleteOutline, FilterAlt, HighlightOff} from '@mui/icons-material';
 import {InputGroup,Form,DropdownButton,Dropdown,Button} from 'react-bootstrap';
-
-import CurrencyTextField from '@unicef/material-ui-currency-textfield'
+ 
 import { SidebarContext } from 'components/context/SidebarContext';
 import DatePickerModel from '../datepicker/DatePickerModel'
 function FilterForm() {
