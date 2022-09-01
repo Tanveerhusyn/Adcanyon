@@ -101,7 +101,7 @@ const Register = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                margin: "5px 2px",
+                margin: "1px 2px",
               }}
             >
               <img
@@ -132,14 +132,14 @@ const Register = () => {
               justifyContent: "center",
               alignItems: "center",
             }}
-            className="  py-lg-1"
+            className="  py-lg-0"
           >
             <div className="text-center text-muted mb-2">
               <small>Or sign up with credentials</small>
             </div>
             <Form role="form" style={{ width: "80%" }}>
               <FormGroup>
-                <InputGroup className="  mb-3">
+                <InputGroup className="  mb-2">
                   
                   <Input
                     placeholder="User Name"
@@ -150,7 +150,7 @@ const Register = () => {
                 </InputGroup>
               </FormGroup>
               <FormGroup>
-                <InputGroup className="  mb-3">
+                <InputGroup className="  mb-2">
                   
                   <Input
                     placeholder="Account ID"
@@ -162,7 +162,7 @@ const Register = () => {
               </FormGroup>
 
               <FormGroup>
-                <InputGroup className=" mb-3">
+                <InputGroup className=" mb-2s">
                   
                   <Input
                     placeholder="Email"
@@ -212,10 +212,11 @@ const Register = () => {
                       error?<p className="" style={{color:'red',textAlign:'center',fontSize:"15px",marginTop:'3px'}}>{error}</p>:null
                     } */}
               </Row>
-              <div className="text-center">
+              <div className="text-center" style={{marginBottom:'8px'}}>
                 <Button
                   onClick={handleSubmit}
-                  className="mt-4"
+                  className="mt-2"
+
                   color="primary"
                   type="button"
                 >
